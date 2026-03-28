@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Saptrishi Bios Consultancy Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#040d1a;
+  --navy2:#071528;
+  --navy3:#0b1e35;
+  --teal:#00c9b1;
+  --teal2:#00a896;
+  --blue:#1a6fff;
+  --blue2:#4d96ff;
+  --white:#f0f8ff;
+  --white2:#c8dff5;
+  --muted:#7a9ec0;
+  --card:#0d2340;
+  --card2:#102a4a;
+  --border:rgba(0,201,177,0.15);
+  --glow:rgba(0,201,177,0.25);
+  --ff-head:'Syne',sans-serif;
+  --ff-body:'DM Sans',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{background:var(--navy);color:var(--white);font-family:var(--ff-body);font-size:16px;line-height:1.6;overflow-x:hidden}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.1rem 5%;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(18px);background:rgba(4,13,26,0.75);border-bottom:1px solid var(--border);transition:background .3s}
+.nav-logo{font-family:var(--ff-head);font-size:1.15rem;font-weight:800;letter-spacing:-.5px;color:var(--white)}
+.nav-logo span{color:var(--teal)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{font-size:.88rem;font-weight:500;color:var(--white2);text-decoration:none;letter-spacing:.3px;transition:color .2s}
+.nav-links a:hover{color:var(--teal)}
+.nav-cta{background:var(--teal);color:var(--navy);font-family:var(--ff-head);font-weight:700;font-size:.85rem;padding:.55rem 1.3rem;border-radius:4px;text-decoration:none;letter-spacing:.4px;transition:background .2s,transform .2s}
+.nav-cta:hover{background:var(--teal2);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--white);border-radius:2px;transition:.3s}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--navy2);z-index:99;flex-direction:column;align-items:center;justify-content:center;gap:2rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--ff-head);font-size:1.4rem;color:var(--white);text-decoration:none}
+.mobile-menu a:hover{color:var(--teal)}
+.close-menu{position:absolute;top:1.5rem;right:5%;font-size:1.8rem;cursor:pointer;color:var(--white)}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;align-items:center;position:relative;overflow:hidden;padding:7rem 5% 4rem}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 70% 50%,rgba(0,201,177,.08) 0%,transparent 70%),radial-gradient(ellipse 50% 40% at 20% 80%,rgba(26,111,255,.07) 0%,transparent 60%),var(--navy)}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,201,177,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(0,201,177,.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+.hero-content{position:relative;z-index:2;max-width:660px}
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,201,177,.1);border:1px solid rgba(0,201,177,.3);border-radius:100px;padding:.35rem 1rem;font-size:.78rem;font-weight:500;color:var(--teal);letter-spacing:.6px;text-transform:uppercase;margin-bottom:1.6rem;animation:fadeUp .8s ease both}
+.hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--teal);animation:pulse 2s infinite}
+.hero-title{font-family:var(--ff-head);font-size:clamp(2.4rem,5vw,3.8rem);font-weight:800;line-height:1.1;letter-spacing:-1.5px;animation:fadeUp .9s .1s ease both}
+.hero-title em{font-style:normal;color:var(--teal)}
+.hero-tagline{margin-top:1.1rem;font-size:1.15rem;font-weight:300;color:var(--white2);line-height:1.7;animation:fadeUp 1s .2s ease both}
+.hero-desc{margin-top:1rem;font-size:.95rem;color:var(--muted);max-width:560px;animation:fadeUp 1s .3s ease both}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2.2rem;animation:fadeUp 1s .4s ease both}
+.btn-primary{background:var(--teal);color:var(--navy);font-family:var(--ff-head);font-weight:700;font-size:.9rem;padding:.85rem 2rem;border-radius:5px;text-decoration:none;letter-spacing:.3px;transition:background .2s,transform .2s,box-shadow .2s;box-shadow:0 0 0 rgba(0,201,177,0)}
+.btn-primary:hover{background:var(--teal2);transform:translateY(-2px);box-shadow:0 8px 30px rgba(0,201,177,.35)}
+.btn-outline{border:1.5px solid rgba(0,201,177,.5);color:var(--teal);font-family:var(--ff-head);font-weight:600;font-size:.9rem;padding:.82rem 2rem;border-radius:5px;text-decoration:none;letter-spacing:.3px;transition:border-color .2s,background .2s,transform .2s}
+.btn-outline:hover{border-color:var(--teal);background:rgba(0,201,177,.07);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:2.5rem;margin-top:3rem;animation:fadeUp 1s .5s ease both}
+.stat{display:flex;flex-direction:column}
+.stat-num{font-family:var(--ff-head);font-size:2rem;font-weight:800;color:var(--white)}
+.stat-num span{color:var(--teal)}
+.stat-lbl{font-size:.78rem;color:var(--muted);letter-spacing:.4px;text-transform:uppercase;margin-top:.1rem}
+.hero-visual{position:absolute;right:3%;top:50%;transform:translateY(-50%);width:min(42vw,520px);z-index:1;pointer-events:none;animation:floatY 6s ease-in-out infinite}
+@keyframes floatY{0%,100%{transform:translateY(-50%) translateY(0)}50%{transform:translateY(-50%) translateY(-18px)}}
+
+/* DNA SVG */
+.dna-wrap{width:100%;height:100%}
+.node{fill:none;stroke:var(--teal);stroke-width:1.5;opacity:.7}
+.node-dot{fill:var(--teal);opacity:.8}
+.backbone{fill:none;stroke:rgba(0,201,177,.3);stroke-width:1.5}
+.rung{stroke:rgba(0,201,177,.4);stroke-width:1;stroke-dasharray:3 2}
+
+/* ── SECTIONS COMMON ── */
+section{padding:6rem 5%}
+.section-tag{display:inline-block;background:rgba(0,201,177,.1);border:1px solid rgba(0,201,177,.25);color:var(--teal);font-size:.75rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:.3rem .9rem;border-radius:100px;margin-bottom:1rem}
+.section-title{font-family:var(--ff-head);font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;letter-spacing:-1px;line-height:1.15;color:var(--white)}
+.section-title em{font-style:normal;color:var(--teal)}
+.section-sub{color:var(--muted);max-width:560px;margin-top:.8rem;font-size:.97rem}
+
+/* ── ABOUT ── */
+#about{background:var(--navy2);position:relative;overflow:hidden}
+#about::before{content:'';position:absolute;top:-100px;right:-100px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(0,201,177,.06) 0%,transparent 70%);pointer-events:none}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;margin-top:3.5rem}
+.about-text p{color:var(--white2);font-size:.97rem;line-height:1.8;margin-bottom:1rem}
+.about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem}
+.pillar{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.1rem 1.2rem;display:flex;align-items:flex-start;gap:.8rem}
+.pillar-icon{font-size:1.4rem;flex-shrink:0;margin-top:.1rem}
+.pillar-text{font-size:.85rem;color:var(--white2);font-weight:400}
+.pillar-text strong{display:block;color:var(--white);font-family:var(--ff-head);font-size:.92rem;margin-bottom:.2rem}
+.about-visual{display:flex;align-items:center;justify-content:center}
+.mol-graphic{width:100%;max-width:340px}
+
+/* ── SERVICES ── */
+#services{background:var(--navy)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.4rem;margin-top:3rem}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.8rem 1.6rem;transition:border-color .3s,transform .3s,box-shadow .3s;position:relative;overflow:hidden;cursor:default}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,201,177,.05) 0%,transparent 60%);opacity:0;transition:opacity .3s}
+.service-card:hover{border-color:rgba(0,201,177,.5);transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.service-card:hover::before{opacity:1}
+.service-icon{font-size:2rem;margin-bottom:1rem;display:block}
+.service-card h3{font-family:var(--ff-head);font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:.5rem}
+.service-card p{font-size:.85rem;color:var(--muted);line-height:1.7}
+.service-tag{display:inline-block;margin-top:1rem;font-size:.72rem;font-weight:600;letter-spacing:.5px;color:var(--teal);text-transform:uppercase;border-top:1px solid var(--border);padding-top:.7rem;width:100%}
+
+/* ── TECH ── */
+#tech{background:var(--navy2)}
+.tech-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:1rem;margin-top:3rem}
+.tech-chip{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:1.1rem 1rem;text-align:center;transition:border-color .3s,background .3s}
+.tech-chip:hover{border-color:var(--teal);background:rgba(0,201,177,.06)}
+.tech-chip .icon{font-size:1.5rem;margin-bottom:.5rem}
+.tech-chip span{display:block;font-size:.82rem;font-weight:500;color:var(--white2)}
+
+/* ── WHY ── */
+#why{background:var(--navy);position:relative;overflow:hidden}
+#why::after{content:'';position:absolute;bottom:-80px;left:-80px;width:350px;height:350px;border-radius:50%;background:radial-gradient(circle,rgba(26,111,255,.07) 0%,transparent 70%)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.4rem;margin-top:3rem}
+.why-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.8rem 1.6rem;border-left:3px solid var(--teal);transition:transform .3s,box-shadow .3s}
+.why-card:hover{transform:translateY(-4px);box-shadow:0 15px 40px rgba(0,0,0,.3)}
+.why-card h3{font-family:var(--ff-head);font-weight:700;font-size:1rem;color:var(--white);margin-bottom:.5rem}
+.why-card p{font-size:.85rem;color:var(--muted);line-height:1.7}
+.why-num{font-family:var(--ff-head);font-size:2.5rem;font-weight:800;color:rgba(0,201,177,.12);line-height:1;margin-bottom:.4rem}
+
+/* ── TEAM ── */
+#team{background:var(--navy2)}
+.team-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1.8rem;margin-top:3rem}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2.2rem 2rem;position:relative;overflow:hidden;transition:border-color .3s,transform .3s}
+.team-card:hover{border-color:rgba(0,201,177,.5);transform:translateY(-4px)}
+.team-avatar{width:70px;height:70px;border-radius:50%;background:linear-gradient(135deg,var(--teal),var(--blue));display:flex;align-items:center;justify-content:center;font-family:var(--ff-head);font-size:1.5rem;font-weight:800;color:var(--navy);margin-bottom:1.2rem}
+.team-name{font-family:var(--ff-head);font-size:1.15rem;font-weight:700;color:var(--white)}
+.team-title{font-size:.82rem;color:var(--teal);font-weight:500;letter-spacing:.3px;margin-top:.2rem}
+.team-bio{font-size:.87rem;color:var(--muted);line-height:1.7;margin-top:.9rem}
+.team-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.1rem}
+.team-tag{background:rgba(0,201,177,.08);border:1px solid rgba(0,201,177,.2);color:var(--teal);font-size:.72rem;padding:.25rem .65rem;border-radius:100px;font-weight:500}
+
+/* ── CLIENTS ── */
+#clients{background:var(--navy);text-align:center}
+.clients-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;margin-top:3rem}
+.client-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.6rem;text-align:left;transition:border-color .3s}
+.client-card:hover{border-color:rgba(0,201,177,.4)}
+.client-icon{font-size:1.8rem;margin-bottom:.8rem}
+.client-card h3{font-family:var(--ff-head);font-size:.95rem;font-weight:700;color:var(--white);margin-bottom:.4rem}
+.client-card p{font-size:.83rem;color:var(--muted);line-height:1.6}
+
+/* ── CONTACT ── */
+#contact{background:var(--navy2)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.3fr;gap:4rem;margin-top:3.5rem;align-items:start}
+.contact-info h3{font-family:var(--ff-head);font-size:1.2rem;font-weight:700;color:var(--white);margin-bottom:1.4rem}
+.contact-item{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1.4rem}
+.contact-item-icon{width:42px;height:42px;border-radius:8px;background:rgba(0,201,177,.1);border:1px solid rgba(0,201,177,.2);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-item-text strong{display:block;font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:.15rem}
+.contact-item-text a,.contact-item-text span{color:var(--white2);font-size:.92rem;text-decoration:none;transition:color .2s}
+.contact-item-text a:hover{color:var(--teal)}
+.contact-form{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:2.2rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.form-group{display:flex;flex-direction:column;gap:.4rem;margin-bottom:1rem}
+.form-group label{font-size:.8rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.form-group input,.form-group select,.form-group textarea{background:var(--navy);border:1px solid var(--border);border-radius:6px;padding:.8rem 1rem;color:var(--white);font-family:var(--ff-body);font-size:.9rem;transition:border-color .2s,box-shadow .2s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(0,201,177,.1)}
+.form-group textarea{resize:vertical;min-height:110px}
+.form-group select option{background:var(--navy2)}
+.form-submit{background:var(--teal);color:var(--navy);font-family:var(--ff-head);font-weight:700;font-size:.92rem;padding:.9rem 2rem;border-radius:6px;border:none;cursor:pointer;width:100%;letter-spacing:.3px;transition:background .2s,transform .2s}
+.form-submit:hover{background:var(--teal2);transform:translateY(-1px)}
+
+/* ── FOOTER ── */
+footer{background:var(--navy);border-top:1px solid var(--border);padding:3.5rem 5% 2rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:3rem}
+.footer-brand .logo{font-family:var(--ff-head);font-size:1.1rem;font-weight:800;color:var(--white);margin-bottom:.8rem}
+.footer-brand .logo span{color:var(--teal)}
+.footer-brand p{font-size:.85rem;color:var(--muted);line-height:1.7;max-width:260px;margin-bottom:1.2rem}
+.social-links{display:flex;gap:.7rem}
+.social-link{width:36px;height:36px;border-radius:7px;background:var(--card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:.9rem;text-decoration:none;color:var(--white2);transition:border-color .2s,background .2s,color .2s}
+.social-link:hover{border-color:var(--teal);background:rgba(0,201,177,.1);color:var(--teal)}
+.footer-col h4{font-family:var(--ff-head);font-size:.9rem;font-weight:700;color:var(--white);margin-bottom:1rem;letter-spacing:.2px}
+.footer-col ul{list-style:none}
+.footer-col ul li{margin-bottom:.6rem}
+.footer-col ul li a{font-size:.85rem;color:var(--muted);text-decoration:none;transition:color .2s}
+.footer-col ul li a:hover{color:var(--teal)}
+.footer-bottom{border-top:1px solid var(--border);padding-top:1.5rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-bottom p{font-size:.82rem;color:var(--muted)}
+.footer-tagline{font-size:.8rem;color:var(--teal);font-style:italic}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.8)}}
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .about-grid{grid-template-columns:1fr}
+  .about-visual{display:none}
+  .contact-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .hero-visual{display:none}
+}
+@media(max-width:768px){
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  .hero-stats{gap:1.5rem}
+  .form-row{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .footer-bottom{flex-direction:column;text-align:center}
+}
+@media(max-width:480px){
+  section{padding:4rem 5%}
+  .about-pillars{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Saptrishi <span>Bios</span></div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#tech">Technology</a></li>
+    <li><a href="#team">Experts</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in Touch</a>
+  <div class="hamburger" id="ham" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mob">
+  <span class="close-menu" id="closeMenu">✕</span>
+  <a href="#about" class="mob-link">About</a>
+  <a href="#services" class="mob-link">Services</a>
+  <a href="#tech" class="mob-link">Technology</a>
+  <a href="#team" class="mob-link">Experts</a>
+  <a href="#contact" class="mob-link">Contact</a>
+</div>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="hero-badge">🧬 Bioinformatics &amp; Computational Biology</div>
+    <h1 class="hero-title">Saptrishi Bios<br/><em>Consultancy Service</em></h1>
+    <p class="hero-tagline">Empowering Life Sciences through Advanced Bioinformatics and Computational Biology</p>
+    <p class="hero-desc">Expert solutions in bioinformatics, computational drug discovery, omics data analysis, and research consulting to support cutting-edge scientific innovation.</p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">Explore Services</a>
+      <a href="#contact" class="btn-outline">Contact Us</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">50<span>+</span></span><span class="stat-lbl">Projects Delivered</span></div>
+      <div class="stat"><span class="stat-num">8<span>+</span></span><span class="stat-lbl">Service Domains</span></div>
+      <div class="stat"><span class="stat-num">100<span>%</span></span><span class="stat-lbl">Research Focused</span></div>
+    </div>
+  </div>
+
+  <!-- Animated DNA Helix -->
+  <div class="hero-visual">
+    <svg class="dna-wrap" viewBox="0 0 380 560" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#00c9b1" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#00c9b1" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="blur1"><feGaussianBlur stdDeviation="8"/></filter>
+      </defs>
+      <!-- Background glow -->
+      <ellipse cx="190" cy="280" rx="160" ry="200" fill="url(#glow1)" filter="url(#blur1)"/>
+
+      <!-- DNA Backbone Strand 1 (sine wave left) -->
+      <path class="backbone" d="
+        M 130 30 C 80 60,60 100,100 130 C 140 160,160 200,130 230
+        C 100 260,80 300,120 330 C 160 360,160 400,130 430
+        C 100 460,80 500,120 530
+      "/>
+      <!-- DNA Backbone Strand 2 (sine wave right, offset) -->
+      <path class="backbone" d="
+        M 250 30 C 300 60,320 100,280 130 C 240 160,220 200,250 230
+        C 280 260,300 300,260 330 C 220 360,220 400,250 430
+        C 280 460,300 500,260 530
+      "/>
+
+      <!-- Rungs (base pairs) -->
+      <g class="rungs">
+        <line x1="118" y1="80"  x2="262" y2="80"  class="rung"/>
+        <line x1="100" y1="120" x2="280" y2="120" class="rung"/>
+        <line x1="108" y1="160" x2="272" y2="160" class="rung"/>
+        <line x1="136" y1="200" x2="244" y2="200" class="rung"/>
+        <line x1="152" y1="240" x2="228" y2="240" class="rung"/>
+        <line x1="140" y1="280" x2="240" y2="280" class="rung"/>
+        <line x1="118" y1="320" x2="262" y2="320" class="rung"/>
+        <line x1="100" y1="360" x2="280" y2="360" class="rung"/>
+        <line x1="110" y1="400" x2="270" y2="400" class="rung"/>
+        <line x1="138" y1="440" x2="242" y2="440" class="rung"/>
+        <line x1="152" y1="480" x2="228" y2="480" class="rung"/>
+      </g>
+
+      <!-- Node dots on strand 1 -->
+      <g>
+        <circle class="node-dot" cx="130" cy="30" r="5"><animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/></circle>
+        <circle class="node-dot" cx="100" cy="80" r="4" opacity=".6"/>
+        <circle class="node-dot" cx="80"  cy="130" r="5"><animate attributeName="r" values="5;7;5" dur="4s" repeatCount="indefinite"/></circle>
+        <circle class="node-dot" cx="100" cy="180" r="4" opacity=".6"/>
+        <circle class="node-dot" cx="130" cy="230" r="5"/>
+        <circle class="node-dot" cx="150" cy="280" r="4" opacity=".6"/>
+        <circle class="node-dot" cx="130" cy="330" r="5"><animate attributeName="r" values="5;7;5" dur="3.5s" repeatCount="indefinite"/></circle>
+        <circle class="node-dot" cx="100" cy="380" r="4" opacity=".6"/>
+        <circle class="node-dot" cx="80"  cy="430" r="5"/>
+        <circle class="node-dot" cx="100" cy="480" r="4" opacity=".6"/>
+        <circle class="node-dot" cx="130" cy="530" r="5"/>
+      </g>
+      <!-- Node dots on strand 2 -->
+      <g fill="#1a6fff" opacity=".85">
+        <circle cx="250" cy="30" r="5"><animate attributeName="r" values="5;7;5" dur="4s" repeatCount="indefinite"/></circle>
+        <circle cx="280" cy="80" r="4" opacity=".6"/>
+        <circle cx="300" cy="130" r="5"/>
+        <circle cx="280" cy="180" r="4" opacity=".6"/>
+        <circle cx="250" cy="230" r="5"><animate attributeName="r" values="5;7;5" dur="3s" repeatCount="indefinite"/></circle>
+        <circle cx="230" cy="280" r="4" opacity=".6"/>
+        <circle cx="250" cy="330" r="5"/>
+        <circle cx="280" cy="380" r="4" opacity=".6"/>
+        <circle cx="300" cy="430" r="5"/>
+        <circle cx="280" cy="480" r="4" opacity=".6"/>
+        <circle cx="250" cy="530" r="5"/>
+      </g>
+
+      <!-- Molecular nodes decorative -->
+      <g>
+        <circle cx="50" cy="200" r="18" fill="none" stroke="rgba(0,201,177,.25)" stroke-width="1.5"/>
+        <circle cx="50" cy="200" r="5" fill="rgba(0,201,177,.4)"/>
+        <line x1="68" y1="200" x2="100" y2="200" stroke="rgba(0,201,177,.2)" stroke-width="1"/>
+
+        <circle cx="330" cy="310" r="22" fill="none" stroke="rgba(26,111,255,.25)" stroke-width="1.5"/>
+        <circle cx="330" cy="310" r="5" fill="rgba(26,111,255,.4)"/>
+        <line x1="308" y1="310" x2="280" y2="310" stroke="rgba(26,111,255,.2)" stroke-width="1"/>
+
+        <circle cx="44" cy="400" r="14" fill="none" stroke="rgba(0,201,177,.2)" stroke-width="1"/>
+        <circle cx="44" cy="400" r="4" fill="rgba(0,201,177,.3)"/>
+        <line x1="58" y1="400" x2="80" y2="400" stroke="rgba(0,201,177,.15)" stroke-width="1"/>
+
+        <circle cx="338" cy="130" r="16" fill="none" stroke="rgba(26,111,255,.2)" stroke-width="1.5"/>
+        <circle cx="338" cy="130" r="4" fill="rgba(26,111,255,.35)"/>
+      </g>
+
+      <!-- Floating labels -->
+      <text x="20" y="195" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(0,201,177,.5)" letter-spacing="1">ATP</text>
+      <text x="344" y="305" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(77,150,255,.5)" letter-spacing="1">DNA</text>
+      <text x="10"  y="395" font-family="'DM Sans',sans-serif" font-size="9" fill="rgba(0,201,177,.4)" letter-spacing="1">RNA</text>
+    </svg>
+  </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about">
+  <div>
+    <span class="section-tag reveal">About Us</span>
+    <h2 class="section-title reveal">Computational Biology<br/><em>Meets Real-World Impact</em></h2>
+    <p class="section-sub reveal">A specialized consultancy at the intersection of molecular biology and data science.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-text reveal">
+      <p>Saptrishi Bios Consultancy Service specializes in bioinformatics analysis, computational drug discovery, molecular modeling, and multi-omics data interpretation. We bridge the gap between complex biological data and actionable scientific insights.</p>
+      <p>Our consultancy supports researchers, startups, and biotechnology organizations with advanced computational tools and scientific expertise — from hypothesis to publication.</p>
+      <div class="about-pillars">
+        <div class="pillar"><span class="pillar-icon">🔬</span><div class="pillar-text"><strong>Research-Grade Analysis</strong>Publication-ready results with rigorous methodology</div></div>
+        <div class="pillar"><span class="pillar-icon">💊</span><div class="pillar-text"><strong>Drug Discovery</strong>Computational pipelines for lead identification</div></div>
+        <div class="pillar"><span class="pillar-icon">🧬</span><div class="pillar-text"><strong>Omics Expertise</strong>Genomics, proteomics, transcriptomics</div></div>
+        <div class="pillar"><span class="pillar-icon">🎓</span><div class="pillar-text"><strong>Academic Support</strong>PhD, MTech &amp; BTech project guidance</div></div>
+      </div>
+    </div>
+    <div class="about-visual">
+      <!-- Molecular structure graphic -->
+      <svg class="mol-graphic" viewBox="0 0 340 340" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="mg1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#00c9b1" stop-opacity=".15"/>
+            <stop offset="100%" stop-color="#00c9b1" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="170" cy="170" r="140" fill="url(#mg1)"/>
+        <!-- Bonds -->
+        <line x1="170" y1="170" x2="80"  y2="100" stroke="rgba(0,201,177,.4)" stroke-width="2"/>
+        <line x1="170" y1="170" x2="260" y2="100" stroke="rgba(0,201,177,.4)" stroke-width="2"/>
+        <line x1="170" y1="170" x2="80"  y2="240" stroke="rgba(26,111,255,.4)" stroke-width="2"/>
+        <line x1="170" y1="170" x2="260" y2="240" stroke="rgba(26,111,255,.4)" stroke-width="2"/>
+        <line x1="170" y1="170" x2="170" y2="50"  stroke="rgba(0,201,177,.3)" stroke-width="1.5"/>
+        <line x1="170" y1="170" x2="170" y2="290" stroke="rgba(26,111,255,.3)" stroke-width="1.5"/>
+        <line x1="170" y1="170" x2="50"  y2="170" stroke="rgba(0,201,177,.3)" stroke-width="1.5"/>
+        <line x1="170" y1="170" x2="290" y2="170" stroke="rgba(26,111,255,.3)" stroke-width="1.5"/>
+        <!-- Secondary bonds -->
+        <line x1="80"  y1="100" x2="260" y2="100" stroke="rgba(0,201,177,.15)" stroke-width="1"/>
+        <line x1="80"  y1="240" x2="260" y2="240" stroke="rgba(26,111,255,.15)" stroke-width="1"/>
+        <line x1="80"  y1="100" x2="80"  y2="240" stroke="rgba(0,201,177,.15)" stroke-width="1"/>
+        <line x1="260" y1="100" x2="260" y2="240" stroke="rgba(26,111,255,.15)" stroke-width="1"/>
+        <!-- Atoms -->
+        <circle cx="170" cy="170" r="22" fill="#071528" stroke="#00c9b1" stroke-width="2.5"/>
+        <text x="170" y="175" text-anchor="middle" font-family="'Syne',sans-serif" font-size="11" font-weight="700" fill="#00c9b1">C</text>
+        <circle cx="80"  cy="100" r="16" fill="#071528" stroke="#00c9b1" stroke-width="2"/>
+        <text x="80"  y="105" text-anchor="middle" font-family="'Syne',sans-serif" font-size="10" fill="#00c9b1">N</text>
+        <circle cx="260" cy="100" r="16" fill="#071528" stroke="#1a6fff" stroke-width="2"/>
+        <text x="260" y="105" text-anchor="middle" font-family="'Syne',sans-serif" font-size="10" fill="#4d96ff">O</text>
+        <circle cx="80"  cy="240" r="16" fill="#071528" stroke="#1a6fff" stroke-width="2"/>
+        <text x="80"  y="245" text-anchor="middle" font-family="'Syne',sans-serif" font-size="10" fill="#4d96ff">H</text>
+        <circle cx="260" cy="240" r="16" fill="#071528" stroke="#00c9b1" stroke-width="2"/>
+        <text x="260" y="245" text-anchor="middle" font-family="'Syne',sans-serif" font-size="10" fill="#00c9b1">S</text>
+        <circle cx="170" cy="50"  r="12" fill="#071528" stroke="rgba(0,201,177,.6)" stroke-width="1.5"/>
+        <circle cx="170" cy="290" r="12" fill="#071528" stroke="rgba(26,111,255,.6)" stroke-width="1.5"/>
+        <circle cx="50"  cy="170" r="12" fill="#071528" stroke="rgba(0,201,177,.6)" stroke-width="1.5"/>
+        <circle cx="290" cy="170" r="12" fill="#071528" stroke="rgba(26,111,255,.6)" stroke-width="1.5"/>
+        <!-- Orbital ring -->
+        <ellipse cx="170" cy="170" rx="110" ry="42" fill="none" stroke="rgba(0,201,177,.1)" stroke-width="1" transform="rotate(35,170,170)"/>
+        <ellipse cx="170" cy="170" rx="110" ry="42" fill="none" stroke="rgba(26,111,255,.1)" stroke-width="1" transform="rotate(-35,170,170)"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <span class="section-tag reveal">What We Offer</span>
+  <h2 class="section-title reveal">Expert <em>Services</em></h2>
+  <p class="section-sub reveal">Comprehensive bioinformatics and computational biology solutions tailored to your research goals.</p>
+  <div class="services-grid">
+    <div class="service-card reveal">
+      <span class="service-icon">🔩</span>
+      <h3>Molecular Docking &amp; Virtual Screening</h3>
+      <p>High-throughput virtual screening, protein-ligand docking, and binding affinity prediction using AutoDock and Vina.</p>
+      <span class="service-tag">Drug Discovery</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">⚛️</span>
+      <h3>Molecular Dynamics Simulation</h3>
+      <p>MD simulations using GROMACS for understanding protein stability, conformational changes, and drug-target interactions.</p>
+      <span class="service-tag">Structural Biology</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🧬</span>
+      <h3>Genomics &amp; Transcriptomics Analysis</h3>
+      <p>NGS data processing, variant calling, differential gene expression, pathway enrichment, and RNA-seq analysis.</p>
+      <span class="service-tag">Omics</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🔭</span>
+      <h3>Proteomics &amp; Systems Biology</h3>
+      <p>Protein identification, quantification, network analysis, and systems-level integration of biological data.</p>
+      <span class="service-tag">Multi-Omics</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">💊</span>
+      <h3>Computational Drug Discovery</h3>
+      <p>End-to-end computational pipelines for target identification, ADMET prediction, and lead optimization.</p>
+      <span class="service-tag">Pharma</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">🎓</span>
+      <h3>Bioinformatics Training &amp; Workshops</h3>
+      <p>Hands-on training programs on bioinformatics tools, pipelines, and computational approaches for researchers.</p>
+      <span class="service-tag">Education</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">📋</span>
+      <h3>Research Project Guidance</h3>
+      <p>End-to-end mentoring for PhD, MTech, and BTech students in computational biology and bioinformatics projects.</p>
+      <span class="service-tag">Academia</span>
+    </div>
+    <div class="service-card reveal">
+      <span class="service-icon">📝</span>
+      <h3>Scientific Writing &amp; Publication Support</h3>
+      <p>Manuscript preparation, data visualization, journal selection, and peer-review response assistance.</p>
+      <span class="service-tag">Publication</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TECHNOLOGY ═══ -->
+<section id="tech">
+  <span class="section-tag reveal">Tools &amp; Technologies</span>
+  <h2 class="section-title reveal">Our <em>Technology Stack</em></h2>
+  <p class="section-sub reveal">Leveraging state-of-the-art computational tools and methodologies.</p>
+  <div class="tech-grid">
+    <div class="tech-chip reveal"><div class="icon">🐍</div><span>Python</span></div>
+    <div class="tech-chip reveal"><div class="icon">📊</div><span>R / Bioconductor</span></div>
+    <div class="tech-chip reveal"><div class="icon">⚙️</div><span>Perl</span></div>
+    <div class="tech-chip reveal"><div class="icon">🔬</div><span>GROMACS</span></div>
+    <div class="tech-chip reveal"><div class="icon">🧪</div><span>Discovery Studio</span></div>
+    <div class="tech-chip reveal"><div class="icon">🔩</div><span>AutoDock / Vina</span></div>
+    <div class="tech-chip reveal"><div class="icon">🧬</div><span>NGS Analysis</span></div>
+    <div class="tech-chip reveal"><div class="icon">🤖</div><span>ML in Bioinformatics</span></div>
+    <div class="tech-chip reveal"><div class="icon">🏗️</div><span>Structural Bioinformatics</span></div>
+    <div class="tech-chip reveal"><div class="icon">🗺️</div><span>Pathway Analysis</span></div>
+    <div class="tech-chip reveal"><div class="icon">🌐</div><span>Systems Biology</span></div>
+    <div class="tech-chip reveal"><div class="icon">📡</div><span>Cloud HPC</span></div>
+  </div>
+</section>
+
+<!-- ═══ WHY CHOOSE US ═══ -->
+<section id="why">
+  <span class="section-tag reveal">Why Us</span>
+  <h2 class="section-title reveal">Built for <em>Scientific Excellence</em></h2>
+  <p class="section-sub reveal">What sets Saptrishi Bios apart in the bioinformatics landscape.</p>
+  <div class="why-grid">
+    <div class="why-card reveal">
+      <div class="why-num">01</div>
+      <h3>Experienced Researchers</h3>
+      <p>Our team brings years of hands-on expertise in bioinformatics, computational biology, and drug discovery research.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-num">02</div>
+      <h3>Advanced Computational Tools</h3>
+      <p>We utilize industry-leading software and custom pipelines for high-quality, reproducible analyses.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-num">03</div>
+      <h3>Customized Solutions</h3>
+      <p>Every project is uniquely designed to meet your specific research questions, data types, and timelines.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-num">04</div>
+      <h3>Academic &amp; Industrial Support</h3>
+      <p>From university research labs to pharma R&amp;D teams, we adapt to diverse organizational needs.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-num">05</div>
+      <h3>Publication Expertise</h3>
+      <p>We help take your data from raw results to peer-reviewed publications with strong analytical depth.</p>
+    </div>
+    <div class="why-card reveal">
+      <div class="why-num">06</div>
+      <h3>End-to-End Guidance</h3>
+      <p>From conceptualization to final deliverables, we are a committed research partner throughout your journey.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TEAM ═══ -->
+<section id="team">
+  <span class="section-tag reveal">Our Experts</span>
+  <h2 class="section-title reveal">Meet the <em>Scientists</em></h2>
+  <p class="section-sub reveal">Leading researchers with deep expertise in computational biology and drug design.</p>
+  <div class="team-grid">
+    <div class="team-card reveal">
+      <div class="team-avatar">AK</div>
+      <div class="team-name">Dr. Ajay Kumar Singh</div>
+      <div class="team-title">Senior Bioinformatics Expert</div>
+      <p class="team-bio">Dr. Singh brings extensive expertise in structural bioinformatics, molecular docking, and computational drug discovery. With a strong publication record, he leads complex omics data interpretation and multi-target drug design projects for academic and industrial clients.</p>
+      <div class="team-tags">
+        <span class="team-tag">Molecular Docking</span>
+        <span class="team-tag">Drug Design</span>
+        <span class="team-tag">Structural Bioinformatics</span>
+        <span class="team-tag">MD Simulation</span>
+      </div>
+    </div>
+    <div class="team-card reveal">
+      <div class="team-avatar" style="background:linear-gradient(135deg,#1a6fff,#00c9b1)">PY</div>
+      <div class="team-name">Dr. Piyush Kumar Yadav</div>
+      <div class="team-title">Bioinformatics Scientist</div>
+      <p class="team-bio">Dr. Yadav specializes in genomics, transcriptomics, and machine learning applications in bioinformatics. He leads NGS pipeline development, proteomics integration, and training initiatives, supporting researchers from data acquisition through to publication.</p>
+      <div class="team-tags">
+        <span class="team-tag">NGS Analysis</span>
+        <span class="team-tag">Transcriptomics</span>
+        <span class="team-tag">ML in Biology</span>
+        <span class="team-tag">Systems Biology</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CLIENTS ═══ -->
+<section id="clients">
+  <span class="section-tag reveal">Who We Serve</span>
+  <h2 class="section-title reveal">Our <em>Client Focus</em></h2>
+  <p class="section-sub reveal" style="margin:0 auto .5rem">Serving diverse stakeholders across the life sciences ecosystem.</p>
+  <div class="clients-grid" style="margin-top:3rem">
+    <div class="client-card reveal">
+      <div class="client-icon">🏛️</div>
+      <h3>Universities &amp; Research Scholars</h3>
+      <p>Supporting MSc, PhD, and post-doctoral researchers with data analysis, methods development, and manuscript preparation.</p>
+    </div>
+    <div class="client-card reveal">
+      <div class="client-icon">🚀</div>
+      <h3>Biotechnology Startups</h3>
+      <p>Providing computational infrastructure and expert analysis to accelerate early-stage biotech innovation and validation.</p>
+    </div>
+    <div class="client-card reveal">
+      <div class="client-icon">🏭</div>
+      <h3>Pharmaceutical Companies</h3>
+      <p>Delivering drug discovery pipelines, target analysis, and ADMET profiling to support R&amp;D decision-making.</p>
+    </div>
+    <div class="client-card reveal">
+      <div class="client-icon">🏥</div>
+      <h3>Healthcare Research Organizations</h3>
+      <p>Enabling precision medicine insights through clinical genomics, biomarker discovery, and systems-level data integration.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact">
+  <span class="section-tag reveal">Get In Touch</span>
+  <h2 class="section-title reveal">Start Your <em>Research Journey</em></h2>
+  <p class="section-sub reveal">Reach out to discuss how we can support your scientific goals.</p>
+  <div class="contact-grid">
+    <div class="contact-info reveal">
+      <h3>Contact Information</h3>
+      <div class="contact-item">
+        <div class="contact-item-icon">✉️</div>
+        <div class="contact-item-text">
+          <strong>Email</strong>
+          <a href="mailto:info@saptrishi-bios.com">info@saptrishi-bios.com</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📞</div>
+        <div class="contact-item-text">
+          <strong>Phone</strong>
+          <a href="tel:+911234567890">+91 12345 67890</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">💼</div>
+        <div class="contact-item-text">
+          <strong>LinkedIn</strong>
+          <a href="https://linkedin.com" target="_blank" rel="noopener">linkedin.com/in/saptrishi-bios</a>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-item-icon">📍</div>
+        <div class="contact-item-text">
+          <strong>Location</strong>
+          <span>India</span>
+        </div>
+      </div>
+      <div style="margin-top:2rem;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.5rem">
+        <p style="font-size:.88rem;color:var(--muted);line-height:1.7;font-style:italic">"We are committed to delivering rigorous, reproducible, and impactful computational biology solutions that advance scientific discovery."</p>
+        <p style="font-size:.8rem;color:var(--teal);margin-top:.8rem;font-family:var(--ff-head);font-weight:600">— Saptrishi Bios Team</p>
+      </div>
+    </div>
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="Dr. Priya"/>
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Sharma"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" placeholder="priya@university.ac.in"/>
+      </div>
+      <div class="form-group">
+        <label>Organization</label>
+        <input type="text" placeholder="Your institution or company"/>
+      </div>
+      <div class="form-group">
+        <label>Service of Interest</label>
+        <select>
+          <option value="">Select a service...</option>
+          <option>Molecular Docking &amp; Virtual Screening</option>
+          <option>Molecular Dynamics Simulation</option>
+          <option>Genomics &amp; Transcriptomics Analysis</option>
+          <option>Proteomics &amp; Systems Biology</option>
+          <option>Computational Drug Discovery</option>
+          <option>Bioinformatics Training &amp; Workshops</option>
+          <option>Research Project Guidance</option>
+          <option>Scientific Writing &amp; Publication Support</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Briefly describe your research project or inquiry..."></textarea>
+      </div>
+      <button class="form-submit" type="button">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">Saptrishi <span>Bios</span> Consultancy</div>
+      <p>Advancing Life Sciences with Bioinformatics Innovation. Your trusted partner in computational biology research.</p>
+      <div class="social-links">
+        <a href="#" class="social-link" title="LinkedIn">in</a>
+        <a href="#" class="social-link" title="Twitter">𝕏</a>
+        <a href="#" class="social-link" title="ResearchGate">RG</a>
+        <a href="#" class="social-link" title="GitHub">GH</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#about">About Us</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#tech">Technology</a></li>
+        <li><a href="#team">Our Experts</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Services</h4>
+      <ul>
+        <li><a href="#services">Molecular Docking</a></li>
+        <li><a href="#services">MD Simulation</a></li>
+        <li><a href="#services">Genomics Analysis</a></li>
+        <li><a href="#services">Drug Discovery</a></li>
+        <li><a href="#services">Research Guidance</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Sectors</h4>
+      <ul>
+        <li><a href="#clients">Academia</a></li>
+        <li><a href="#clients">Biotech Startups</a></li>
+        <li><a href="#clients">Pharma</a></li>
+        <li><a href="#clients">Healthcare</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Saptrishi Bios Consultancy Service. All rights reserved.</p>
+    <span class="footer-tagline">🧬 Advancing Life Sciences with Bioinformatics Innovation</span>
+  </div>
+</footer>
+
+<script>
+// Mobile menu
+const ham=document.getElementById('ham'),mob=document.getElementById('mob'),closeMenu=document.getElementById('closeMenu');
+ham.addEventListener('click',()=>mob.classList.add('open'));
+closeMenu.addEventListener('click',()=>mob.classList.remove('open'));
+document.querySelectorAll('.mob-link').forEach(l=>l.addEventListener('click',()=>mob.classList.remove('open')));
+
+// Scroll reveal
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)}});
+},{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Stagger service/why/tech cards
+document.querySelectorAll('.services-grid .service-card, .why-grid .why-card, .tech-grid .tech-chip, .clients-grid .client-card').forEach((el,i)=>{
+  el.style.transitionDelay=(i%4)*0.08+'s';
+});
+
+// Form submit
+document.querySelector('.form-submit').addEventListener('click',function(){
+  const btn=this;
+  btn.textContent='Sending…';
+  setTimeout(()=>{btn.textContent='Message Sent ✓';btn.style.background='#00a896';},1200);
+  setTimeout(()=>{btn.textContent='Send Message →';btn.style.background='';},4000);
+});
+</script>
+</body>
+</html>
