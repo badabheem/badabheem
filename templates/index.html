@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Converter</title>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+    <style>
+        .section {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            padding: 2rem 0;
+            height: auto;
+        }
+        body { height: auto; display: block; background-color: #f4f4f9;}
+        .thumbnails-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 1rem;
+            min-height: 100px;
+            border: 2px dashed #ccc;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .thumbnail-item {
+            cursor: grab;
+            border: 1px solid #ddd;
+            padding: 5px;
+            border-radius: 4px;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 120px;
+        }
+        .thumbnail-item img {
+            max-width: 100px;
+            border: 1px solid #eee;
+        }
+        .thumbnail-item span {
+            font-size: 0.8rem;
+            text-align: center;
+            margin-top: 5px;
+            word-break: break-all;
+        }
+        .hidden { display: none; }
+    </style>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="file"], select, button {
+            padding: 0.5rem;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .flashes {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 1rem;
+        }
+        .flashes li {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+<div class="section">
+        <h1>File Converter</h1>
+
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            <ul class="flashes">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+
+        <form action="/convert" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="file">Upload File:</label>
+                <input type="file" name="file" id="file" required accept=".pdf,.doc,.docx">
+            </div>
+
+            <div class="form-group">
+                <label for="conversion_type">Conversion Type:</label>
+                <select name="conversion_type" id="conversion_type" required>
+                    <option value="pdf_to_word">PDF to Word (.docx)</option>
+                    <option value="word_to_pdf">Word to PDF (.pdf)</option>
+                </select>
+            </div>
+
+            <button type="submit">Convert File</button>
+        </form>
+    </div>
+
+        </div>
+
+        <div class="section">
+            <h1>Merge & Rearrange PDFs</h1>
+
+            <form id="uploadMergeForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="merge_files">Upload PDFs to Merge:</label>
+                    <input type="file" name="files" id="merge_files" multiple accept=".pdf" required>
+                </div>
+                <button type="submit" style="margin-top:1rem;">Upload & Generate Thumbnails</button>
+            </form>
+
+            <div id="mergeArea" class="hidden" style="margin-top: 2rem;">
+                <h3>Drag and drop pages to rearrange:</h3>
+                <div id="thumbnails" class="thumbnails-container"></div>
+                <button id="mergeBtn" style="margin-top:1rem; width:100%;">Merge PDFs</button>
+            </div>
+
+            <script>
+                let uploadedPages = [];
+
+                document.getElementById('uploadMergeForm').addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    const formData = new FormData(e.target);
+                    const btn = e.target.querySelector('button');
+                    btn.textContent = 'Uploading...';
+                    btn.disabled = true;
+
+                    try {
+                        const response = await fetch('/upload_for_merge', {
+                            method: 'POST',
+                            body: formData
+                        });
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            uploadedPages = data.pages;
+                            renderThumbnails();
+                            document.getElementById('mergeArea').classList.remove('hidden');
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    } catch (error) {
+                        alert('Error uploading files');
+                    } finally {
+                        btn.textContent = 'Upload & Generate Thumbnails';
+                        btn.disabled = false;
+                    }
+                });
+
+                function renderThumbnails() {
+                    const container = document.getElementById('thumbnails');
+                    container.innerHTML = '';
+
+                    uploadedPages.forEach(page => {
+                        const div = document.createElement('div');
+                        div.className = 'thumbnail-item';
+                        div.dataset.id = page.id;
+                        div.dataset.filePath = page.file_path;
+                        div.dataset.pageNum = page.page_num;
+
+                        div.innerHTML = `
+                            <img src="${page.thumbnail_url}" alt="Page thumbnail">
+                            <span>${page.label}</span>
+                        `;
+                        container.appendChild(div);
+                    });
+
+                    new Sortable(container, {
+                        animation: 150,
+                        ghostClass: 'blue-background-class'
+                    });
+                }
+
+                document.getElementById('mergeBtn').addEventListener('click', async () => {
+                    const container = document.getElementById('thumbnails');
+                    const items = Array.from(container.children);
+
+                    if (items.length === 0) {
+                        alert('No pages to merge');
+                        return;
+                    }
+
+                    const btn = document.getElementById('mergeBtn');
+                    btn.textContent = 'Merging...';
+                    btn.disabled = true;
+
+                    const pagesToMerge = items.map(item => ({
+                        file_path: item.dataset.filePath,
+                        page_num: item.dataset.pageNum
+                    }));
+
+                    try {
+                        const response = await fetch('/merge_pdfs', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ pages: pagesToMerge })
+                        });
+                        const data = await response.json();
+
+                        if (response.ok) {
+                            window.location.href = data.download_url;
+                        } else {
+                            alert('Error: ' + data.error);
+                        }
+                    } catch (error) {
+                        alert('Error merging files');
+                    } finally {
+                        btn.textContent = 'Merge PDFs';
+                        btn.disabled = false;
+                    }
+                });
+            </script>
+
+</div>
+</div>
+</body>
+</html>

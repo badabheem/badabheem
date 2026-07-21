@@ -1,0 +1,7 @@
+venv/
+uploads/
+test.*
+__pycache__/
+flask.log
+flask.pid
+thumbnails/
